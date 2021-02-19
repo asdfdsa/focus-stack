@@ -49,7 +49,7 @@ def main():
 
     args = _parser.parse_args()
     image_files = sum(
-        [glob(f"{args.input}/*.{ext}") for ext in ["jpg", "png", "jpeg", "JPG"]], []
+        [glob(f"{args.input}/*.{ext}") for ext in ["jpg", "png", "jpeg", "JPG", "tiff"]], []
     )
     logger.debug(f"Processing files {image_files}")
     stacker = FocusStacker(

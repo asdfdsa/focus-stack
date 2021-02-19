@@ -11,6 +11,8 @@ from typing import List
 
 import cv2
 import numpy as np
+from pathlib import Path
+from PIL import Image
 
 DEBUG = False
 
@@ -47,7 +49,13 @@ class FocusStacker(object):
     def _read_images(image_files: List[str]) -> List[np.ndarray]:
         """Read the images into numpy arrays using OpenCV."""
         logger.info("reading images")
-        return [cv2.imread(img) for img in image_files]
+        image_matrices = []
+        for img in image_files:
+            if Path(img).suffix == ".tiff":
+                image_matrices.append(np.array(Image.open(img).convert('RGB'))[:,:,::-1])
+            else:
+                image_matrices.append(cv2.imread(img))
+        return image_matrices
 
     @staticmethod
     def _align_images(images: List[np.ndarray]) -> List[np.ndarray]:
